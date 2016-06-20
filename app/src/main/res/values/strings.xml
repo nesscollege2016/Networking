@@ -1,4 +1,12 @@
 <resources>
+
+    <array name="cities">
+        <item>Beer Sheva</item>
+        <item>Tel Aviv</item>
+        <item>Ashdod</item>
+        <item>Jerusalem</item>
+    </array>
+
     <string name="app_name">Networking</string>
     <string name="action_settings">Settings</string>
 </resources>

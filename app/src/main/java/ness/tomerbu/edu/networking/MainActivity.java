@@ -5,12 +5,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ProgressBar;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 public class MainActivity extends AppCompatActivity {
-    ProgressBar pbProgress;
+    Spinner spinner;
     TextView tvResult;
+    ImageView ivPicasso;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +27,53 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         tvResult = (TextView) findViewById(R.id.tvResult);
+        ivPicasso = (ImageView) findViewById(R.id.myWebImage);
+        spinner = (Spinner) findViewById(R.id.citySpinner);
+
+        Picasso.with(this).
+                load("http://i.imgur.com/gInfxuE.jpg").
+                error(R.mipmap.ic_launcher).
+                placeholder(R.mipmap.ic_launcher).
+                into(ivPicasso);
+
+
+
+
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                String city = "";
+                switch (position){
+                    case 0: //beersheba
+                        city = "beersheba";
+                        break;
+                    case 1:
+                        city = "TelAviv";
+                        break;
+                    case 2:
+                        city = "Ashdod";
+                        break;
+                    case 3:
+                        city = "Jerusalem";
+                        break;
+                }
+
+               String url  = "http://api.openweathermap.org/data/2.5/weather?q="
+                       +
+                       city +
+                       ",IL&appid=ad0f66eb2043ed8fa4fe2789fadd6fc9";
+                new HttpAsyncTask(tvResult).execute(url);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
+
 
 
         new HttpAsyncTask(tvResult).
